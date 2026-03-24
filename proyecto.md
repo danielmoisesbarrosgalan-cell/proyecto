@@ -1,0 +1,501 @@
+# TRABAJO CONSOLIDADO SEMANA 1-4
+
+## Introducción
+
+En este documento se presenta el diseño del modelo entidad-relación (ER) correspondiente a la base de datos del proyecto Rutaya, así como su implementación y visualización en diferentes sistemas gestores de bases de datos.
+
+Se trabajó con los motores MySQL, PostgreSQL, Microsoft SQL Server y Oracle, utilizando tanto los visualizadores propios de cada motor como la herramienta DBeaver, la cual actúa como un visualizador común entre los diferentes sistemas.
+
+Adicionalmente, se emplearon visualizadores específicos de cada gestor de base de datos, permitiendo comparar la representación del modelo, analizar la estructura de las entidades y sus relaciones, y verificar la consistencia del diseño en cada entorno.
+
+# #1 DIAGRAMA ENTIDAD RELACIÓN
+
+# MYSQL
+
+## Visualización en DBeaver
+
+![](images/dbeaver%20mysql.png)
+
+## Visualización en MySQL Workbench
+
+![](images/workbech%20mysql-01.png)
+
+## Visualizador del propio motor
+
+![](images/show%20tables%20mysql.png)
+
+![](images/propio%20motor%20mysql.png)
+
+# POSTGRESQL
+
+## Visualización en DBeaver
+
+![](images/dbeaver%20postgresql.png)
+
+## Visualización en pgAdmin 4
+
+![](images/pgadmin%204%20postgresql.png)
+
+## Visualizador del propio motor
+
+![](images/show%20tables%20postgresql.png)
+
+![](images/propio%20motor%20postgresql.png)
+
+# MICROSOFT SQL SERVER
+
+## Visualización en DBeaver
+
+![](images/dbeaver%20ms%20sql%20server.png)
+
+## Visualización en SQL Server Management Studio (SSMS)
+
+![](images/sql%20server%20managment%20studio%20ms%20sql%20server.png)
+
+## Visualizador del propio motor
+
+![](images/tablas%20ms%20sql%20server.png)
+
+![](images/propio%20motor%20ms%20sql%20server.png)
+
+# #2 CREACIÓN PASO A PASO
+
+## Creación de la base de datos en MySQL
+
+Se elimina la base de datos **dbrutaya** para iniciar desde cero, luego se crea nuevamente y se selecciona con `USE`. A continuación, se define la tabla **users** con sus campos principales (id, tipo y número de documento, nombre, teléfono, email y estado). Finalmente, se verifica con `SHOW TABLES` que la tabla fue creada correctamente dentro de la base de datos.
+
+![](images/CREATE%20TABLE%20users.png)
+
+## Creación de tablas en MySQL
+
+Luego se crea la tabla **stores** con sus campos (id, nombre y estado) y se verifica que ambas tablas estén registradas. La tabla **products** se relacionará directamente con **stores** mediante la clave foránea `store_id`.
+
+![](images/clipboard-3493174773.png)
+
+## Creación de la tabla products en MySQL
+
+Luego se crea la tabla **products** con sus entidades principales (id, store_id, nombre, descripción y estado). Esta tabla se relaciona directamente con **stores** mediante la clave foránea `store_id`, lo que permite asociar cada producto con la tienda correspondiente. Finalmente, se verifica con `SHOW TABLES` que ahora existen tres tablas en la base de datos: `users`, `stores` y `products`.
+
+![](images/clipboard-1807240762.png)
+
+## Creación de la tabla drivers en MySQL
+
+Se crea la tabla **drivers** con sus entidades principales (id, nombre y estado). Esta tabla servirá para relacionar posteriormente las órdenes con los conductores mediante asignaciones. Finalmente, se verifica con `SHOW TABLES` que ahora existen cuatro tablas en la base de datos: `users`, `stores`, `products` y `drivers`.
+
+![](images/clipboard-3912000620.png)
+
+## Creación de la tabla liquidations en MySQL
+
+Se crea la tabla **liquidations** con sus entidades principales (id, fecha de creación, estado, subtotal, impuesto y total). Esta tabla se relacionará más adelante con **payments**, permitiendo registrar las liquidaciones de cada orden. Finalmente, se verifica con `SHOW TABLES` que ahora existen cinco tablas en la base de datos: `users`, `stores`, `products`, `drivers` y `liquidations`.
+
+![](images/clipboard-1258208943.png)
+
+## Creación de la tabla orders en MySQL
+
+Se crea la tabla **orders** con sus entidades principales (id, user_id, fecha de creación, estado, subtotal, impuesto y total). Esta tabla se relaciona directamente con **users** mediante la clave foránea `user_id`, permitiendo asociar cada orden con el cliente que la realizó. Finalmente, se verifica con `SHOW TABLES` que ahora existen seis tablas en la base de datos: `users`, `stores`, `products`, `drivers`, `liquidations` y `orders`.
+
+![](images/clipboard-485886031.png)
+
+## Creación de la tabla payments en MySQL
+
+Se crea la tabla **payments** con sus entidades principales (order_id, liquidation_id, método, monto, fecha, referencia y estado). Esta tabla se relaciona directamente con **orders** mediante la clave foránea `order_id` y con **liquidations** mediante `liquidation_id`, permitiendo registrar los pagos asociados a cada orden y su liquidación. Finalmente, se verifica con `SHOW TABLES` que ahora existen siete tablas en la base de datos.
+
+![](images/clipboard-2783260950.png)
+
+## Creación de la tabla assignments en MySQL
+
+Se crea la tabla **assignments** con sus entidades principales (order_id, driver_id, fecha de asignación y estado). Esta tabla se relaciona directamente con **orders** mediante la clave foránea `order_id` y con **drivers** mediante `driver_id`, permitiendo registrar qué conductor atiende cada orden. Finalmente, se verifica con `SHOW TABLES` que ahora existen ocho tablas en la base de datos.
+
+![](images/clipboard-1623230342.png)
+
+## Creación de la tabla trackings en MySQL
+
+Se crea la tabla **trackings** con sus entidades principales (id, order_id, estado, fecha y descripción). Esta tabla se relaciona directamente con **orders** mediante la clave foránea `order_id`, permitiendo registrar el seguimiento y estado de cada orden. Finalmente, se verifica con `SHOW TABLES` que ahora existen nueve tablas en la base de datos.
+
+![](images/clipboard-417959349.png)
+
+## Creación de la tabla order_details en MySQL
+
+Se crea la tabla **order_details** con sus entidades principales (id, order_id, product_id, cantidad, precio unitario, total por línea y observaciones). Esta tabla se relaciona directamente con **orders** mediante la clave foránea `order_id` y con **products** mediante `product_id`, permitiendo detallar los productos incluidos en cada orden. Finalmente, se verifica con `SHOW TABLES` que ahora existen diez tablas en la base de datos.
+
+![](images/clipboard-2422121514.png)
+
+## Creación de la tabla users en PostgreSQL
+
+Se trabaja sobre la base de datos **dbrutaya**, se crea la tabla **users** con sus entidades principales (id, tipo y número de documento, nombre, teléfono, email y estado). PostgreSQL utiliza `SERIAL` para generar el identificador único automáticamente. Se verifican las restricciones: clave primaria en `user_id`, y claves únicas en `document_number` y `email`. Finalmente, con `\d users` se confirma la estructura de la tabla y sus índices.
+
+![](images/clipboard-1079304277.png)
+
+## Creación de la tabla stores en PostgreSQL
+
+Luego se define la tabla **stores** con sus entidades principales (id, nombre y estado), utilizando `SERIAL` para generar el identificador único automáticamente. Se confirma la estructura con `\d stores`, donde se observa la clave primaria en `store_id`. Esta tabla será la base para relacionar posteriormente los **products** con las tiendas.
+
+![](images/clipboard-1131471137.png)
+
+## Creación de la tabla products en PostgreSQL
+
+Se crea la tabla **products** con sus entidades principales (id, store_id, nombre, descripción y estado). Esta tabla se relaciona directamente con **stores** mediante la clave foránea `store_id`, lo que permite asociar cada producto con la tienda correspondiente. Finalmente, con `\d products` se verifica la estructura de la tabla, su clave primaria y la relación definida.
+
+![](images/clipboard-3973823346.png)
+
+## Creación de la tabla drivers en PostgreSQL
+
+Se crea la tabla **drivers** con sus entidades principales (id, nombre y estado), utilizando `SERIAL` para generar el identificador único automáticamente. Con `\d drivers` se verifica la estructura de la tabla y su clave primaria en `driver_id`. Esta tabla servirá para relacionar posteriormente las órdenes con los conductores asignados.
+
+![](images/clipboard-2353357215.png)
+
+## Creación de la tabla liquidations en PostgreSQL
+
+Se crea la tabla **liquidations** con sus entidades principales (id, fecha de creación, estado, subtotal, impuesto y total), utilizando `SERIAL` para generar el identificador único automáticamente. Con `\d liquidations` se verifica la estructura de la tabla y su clave primaria en `liquidation_id`. Esta tabla servirá para relacionar posteriormente las órdenes con sus liquidaciones correspondientes.
+
+![](images/clipboard-716444541.png)
+
+## Creación de la tabla orders en PostgreSQL
+
+Se crea la tabla **orders** con sus entidades principales (id, user_id, fecha de creación, estado, subtotal, impuesto y total). Esta tabla se relaciona directamente con **users** mediante la clave foránea `user_id`, permitiendo asociar cada orden con el cliente correspondiente. Con `\d orders` se verifica la estructura de la tabla, su clave primaria y la relación definida.
+
+![](images/clipboard-30262317.png)
+
+## Creación de la tabla payments en PostgreSQL
+
+Se crea la tabla **payments** con sus entidades principales (order_id, liquidation_id, método, monto, fecha, referencia y estado). Esta tabla se relaciona directamente con **orders** mediante la clave foránea `order_id` y con **liquidations** mediante `liquidation_id`, permitiendo registrar los pagos asociados a cada orden y su liquidación. Con `\d payments` se verifica la estructura de la tabla, su clave primaria y las relaciones definidas.
+
+![](images/clipboard-414399309.png)
+
+## Creación de la tabla assignments en PostgreSQL
+
+Se crea la tabla **assignments** con sus entidades principales (order_id, driver_id, fecha de asignación y estado). Esta tabla se relaciona directamente con **orders** mediante la clave foránea `order_id` y con **drivers** mediante `driver_id`, permitiendo registrar qué conductor atiende cada orden. Con `\d assignments` se verifica la estructura de la tabla, su clave primaria y las relaciones definidas.
+
+![](images/clipboard-2768241438.png)
+
+## Creación de la tabla trackings en PostgreSQL
+
+Se crea la tabla **trackings** con sus entidades principales (id, order_id, estado, fecha y descripción). Esta tabla se relaciona directamente con **orders** mediante la clave foránea `order_id`, permitiendo registrar el seguimiento y estado de cada orden. Con `\d trackings` se verifica la estructura de la tabla, su clave primaria y la relación definida.
+
+![](images/clipboard-1261156143.png)
+
+## Creación de la tabla order_details en PostgreSQL
+
+Se crea la tabla **order_details** con sus entidades principales (id, order_id, product_id, cantidad, precio unitario, total por línea y observaciones). Esta tabla se relaciona directamente con **orders** mediante la clave foránea `order_id` y con **products** mediante `product_id`, permitiendo detallar los productos incluidos en cada orden. Con `\d order_details` se verifica la estructura de la tabla, su clave primaria y las relaciones definidas.
+
+![](images/clipboard-2361986668.png)
+
+## Creación de la tabla users en MS SQL Server
+
+Se define correctamente la tabla **users** con sus entidades principales (id autoincremental, tipo y número de documento, nombre, teléfono, email y estado). Se utiliza `IDENTITY(1,1)` para generar el identificador único automáticamente. Se establecen restricciones: clave primaria en `user_id` y claves únicas en `document_number` y `email`. Con la consulta a `sys.tables` se confirma la existencia de la tabla en el esquema.
+
+![](images/clipboard-253361041.png)
+
+## Creación de la tabla stores en MS SQL Server
+
+Se trabaja sobre la base de datos en SQL Server, después de haber creado la tabla users. Se define la tabla **stores** con sus entidades principales (id autoincremental, nombre y estado). Se utiliza `IDENTITY(1,1)` para generar el identificador único automáticamente. Se establece la clave primaria en `store_id` y se asegura que los campos obligatorios estén correctamente definidos. Con la consulta a `sys.tables` se confirma la existencia de la tabla en el esquema junto con la tabla users.
+
+![](images/clipboard-822599014.png)
+
+## Creación de la tabla products en MS SQL Server
+
+Se define la tabla **products** con sus entidades principales (id autoincremental, store_id, nombre, descripción y estado). Se utiliza `IDENTITY(1,1)` para generar el identificador único automáticamente. Se establece la clave primaria en `product_id` y se define la clave foránea `store_id` que referencia a la tabla stores mediante la restricción `fk_products_store`. Con la consulta a `sys.tables` se confirma la existencia de la tabla en el esquema junto con users y stores.
+
+![](images/clipboard-573717995.png)
+
+## Creación de la tabla drivers en MS SQL Server
+
+Se define la tabla **drivers** con sus entidades principales (id autoincremental, nombre y estado). Se utiliza `IDENTITY(1,1)` para generar el identificador único automáticamente. Se establece la clave primaria en `driver_id` y se asegura que los campos obligatorios estén correctamente definidos. Con la consulta a `sys.tables` se confirma la existencia de la tabla en el esquema junto con users, stores y products.
+
+![](images/clipboard-2980722733.png)
+
+## Creación de la tabla liquidations en MS SQL Server
+
+Se define la tabla **liquidations** con sus entidades principales (id autoincremental, fecha de creación, estado, subtotal, impuesto y total). Se utiliza `IDENTITY(1,1)` para generar el identificador único automáticamente. Se establece la clave primaria en `liquidation_id` y se definen los campos numéricos con precisión decimal para manejar valores monetarios. Con la consulta a `sys.tables` se confirma la existencia de la tabla en el esquema junto con users, stores, products y drivers.
+
+![](images/clipboard-4277577006.png)
+
+## Creación de la tabla orders en MS SQL Server
+
+SSe define la tabla **orders** con sus entidades principales (id autoincremental, user_id, fecha de creación, estado, subtotal, impuesto y total). Se utiliza `IDENTITY(1,1)` para generar el identificador único automáticamente. Se establece la clave primaria en `order_id` y se define la clave foránea `user_id` que referencia a la tabla users mediante la restricción `fk_orders_user`. Con la consulta a `sys.tables` se confirma la existencia de la tabla en el esquema junto con users, stores, products, drivers y liquidations.
+
+![](images/clipboard-2824150869.png)
+
+## Creación de la tabla payments en MS SQL Server
+
+Se define la tabla **payments** con sus entidades principales (order_id, liquidation_id, método de pago, monto, fecha de creación, referencia y estado). Se establece la clave primaria en `order_id` y se definen las claves foráneas: `order_id` que referencia a la tabla orders mediante la restricción `fk_payments_order` y `liquidation_id` que referencia a la tabla liquidations mediante la restricción `fk_payments_liquidation`. Con la consulta a `sys.tables` se confirma la existencia de la tabla en el esquema junto con users, stores, products, drivers, liquidations y orders.
+
+![](images/clipboard-3611068888.png)
+
+## Creación de la tabla assignments en MS SQL Server
+
+Se define la tabla **assignments** con sus entidades principales (order_id, driver_id, fecha de asignación y estado). Se establece la clave primaria en `order_id` y se definen las claves foráneas: `order_id` que referencia a la tabla orders mediante la restricción `fk_assignments_order` y `driver_id` que referencia a la tabla drivers mediante la restricción `fk_assignments_driver`. Con la consulta a `sys.tables` se confirma la existencia de la tabla en el esquema junto con users, stores, products, drivers, liquidations, orders y payments.
+
+![](images/clipboard-1134071921.png)
+
+## Creación de la tabla trackings en MS SQL Server
+
+Se define la tabla **trackings** con sus entidades principales (id autoincremental, order_id, estado, fecha de creación y descripción). Se utiliza `IDENTITY(1,1)` para generar el identificador único automáticamente. Se establece la clave primaria en `tracking_id` y se define la clave foránea `order_id` que referencia a la tabla orders mediante la restricción `fk_trackings_order`. Con la consulta a `sys.tables` se confirma la existencia de la tabla en el esquema junto con users, stores, products, drivers, liquidations, orders, payments y assignments.
+
+![](images/clipboard-3727327612.png)
+
+## Creación de la tabla order_details en MS SQL Server
+
+Se define la tabla **order_details** con sus entidades principales (id autoincremental, order_id, product_id, cantidad, precio unitario, total por línea y observaciones). Se utiliza `IDENTITY(1,1)` para generar el identificador único automáticamente. Se establece la clave primaria en `order_detail_id` y se definen las claves foráneas: `order_id` que referencia a la tabla orders mediante la restricción `fk_orderdetails_order` y `product_id` que referencia a la tabla products mediante la restricción `fk_orderdetails_product`. Con la consulta a `sys.tables` se confirma la existencia de la tabla en el esquema junto con users, stores, products, drivers, liquidations, orders, payments, assignments y trackings.
+
+![](images/clipboard-1788782967.png)
+
+# Creación de la tabla USERS en Oracle
+
+A continuación, se define la tabla USERS con sus entidades principales: USER_ID como clave primaria autogenerada mediante `GENERATE ALWAYS AS IDENTITY`, DOCUMENT_TYPE y DOCUMENT_NUMBER (único), NAME, PHONE, EMAIL (único) y STATUS. Se establecen las restricciones de unicidad y obligatoriedad en los campos clave. Finalmente, con el comando `DESC USERS` se confirma la estructura de la tabla dentro del esquema.
+
+![](images/clipboard-1638850179.png)
+
+# Creación de las tablas STORES en Oracle 
+
+Se crea la tabla STORES con STORE_ID como clave primaria autogenerada, NAME y STATUS como campos obligatorios. Finalmente, con el comando `DESC` se confirma la estructura de ambas tablas dentro del esquema.
+
+![](images/clipboard-1075477156.png)
+
+# Creación de las tablas PRODUCTS en Oracle
+
+Se crea la tabla PRODUCTS con PRODUCT_ID como clave primaria autogenerada, STORE_ID como clave foránea que referencia a la tabla STORES mediante la restricción fk_products_store, además de los campos NAME, DESCRIPTION y STATUS. Finalmente, con el comando `DESC` se confirma la estructura de ambas tablas dentro del esquema.
+
+![](images/clipboard-3658267621.png)
+
+# Creación de las tablas DRIVERS en Oracle
+
+Se crea la tabla DRIVERS con DRIVER_ID como clave primaria autogenerada, junto con los campos NAME y STATUS como obligatorios. Finalmente, con el comando `DESC` se confirma la estructura de ambas tablas dentro del esquema.
+
+![](images/clipboard-2981574037.png)
+
+# Creación de las tablas LIQUIDATIONS en Oracle 
+
+Se crea la tabla LIQUIDATIONS con LIQUIDATION_ID como clave primaria autogenerada, además de los campos CREATED_AT, STATUS, SUBTOTAL, TAX y TOTAL para almacenar la información de las liquidaciones. Finalmente, con el comando `DESC` se confirma la estructura de ambas tablas dentro del esquema.
+
+![](images/clipboard-287064121.png)
+
+# Creación de las tablas ORDERS en Oracle 
+
+Se crea la tabla ORDERS con ORDER_ID como clave primaria autogenerada, USER_ID como clave foránea que referencia a la tabla USERS mediante la restricción fk_orders_user, además de los campos CREATED_AT, STATUS, SUBTOTAL, TAX y TOTAL. Finalmente, con el comando `DESC` se confirma la estructura de ambas tablas dentro del esquema.
+
+![](images/clipboard-2682405500.png)
+
+# Creación de la tabla PAYMENTS en Oracle Database
+
+Se define la tabla PAYMENTS con ORDER_ID como clave primaria, LIQUIDATION_ID como clave foránea que referencia a la tabla LIQUIDATIONS mediante la restricción fk_payments_liquidation y ORDER_ID como clave foránea que referencia a la tabla ORDERS mediante la restricción fk_payments_order. Además, se incluyen los campos METHOD, AMOUNT, CREATED_AT, REFERENCE y STATUS para registrar la información de los pagos. Finalmente, con el comando `DESC` se confirma la estructura de la tabla dentro del esquema.
+
+![](images/clipboard-3162563559.png)
+
+# Creación de la tabla ASSIGNMENTS en Oracle Database
+
+Se define la tabla ASSIGNMENTS con ORDER_ID como clave primaria, DRIVER_ID como clave foránea que referencia a la tabla DRIVERS mediante la restricción fk_assignments_driver y ORDER_ID como clave foránea que referencia a la tabla ORDERS mediante la restricción fk_assignments_order. Además, se incluyen los campos ASSIGNMENT_DATE y STATUS para registrar la información de las asignaciones de pedidos a conductores. Finalmente, con el comando `DESC` se confirma la estructura de la tabla dentro del esquema.
+
+![](images/clipboard-2272786998.png)
+
+# Creación de las tablas TRACKINGS en Oracle
+
+Se crea la tabla TRACKINGS con TRACKING_ID como clave primaria autogenerada mediante `GENERATED ALWAYS AS IDENTITY`, ORDER_ID como clave foránea que referencia a la tabla ORDERS mediante la restricción fk_trackings_order, junto con los campos STATUS, CREATED_AT y DESCRIPTION para almacenar el seguimiento de los pedidos. Finalmente, con el comando `DESC` se confirma la estructura de ambas tablas dentro del esquema.
+
+![](images/clipboard-2940436162.png)
+
+# Creación de la tabla ORDER_DETAILS en Oracle
+
+Se define la tabla ORDER_DETAILS con ORDER_DETAIL_ID como clave primaria autogenerada mediante `GENERATED ALWAYS AS IDENTITY`, ORDER_ID como clave foránea que referencia a la tabla ORDERS mediante la restricción fk_orderdetails_order y PRODUCT_ID como clave foránea que referencia a la tabla PRODUCTS mediante la restricción fk_orderdetails_product. Además, se incluyen los campos QUANTITY, UNIT_PRICE, LINE_TOTAL y OBSERVATIONS para registrar el detalle de cada producto dentro de un pedido. Finalmente, con el comando `DESC` se confirma la estructura de la tabla dentro del esquema.
+
+![](images/clipboard-3692243070.png)
+
+# Creación de la tabla USERS dbeaver mysql
+
+![](images/clipboard-3479123769.png)
+
+# Creación de la tabla STORES dbeaver mysql
+
+![](images/clipboard-3761430652.png)
+
+# Creación de la tabla PRODUCTS dbeaver mysql
+
+![](images/clipboard-3299092449.png)
+
+# Creación de la tabla DRIVERS dbeaver mysql
+
+![](images/clipboard-3688718028.png)
+
+# Creación de la tabla LIQUIDATIONS dbeaver mysql
+
+![](images/clipboard-1014525121.png)
+
+# Creación de la tabla ORDERS dbeaver mysql
+
+![](images/clipboard-2468811726.png)
+
+# Creación de la tabla PAYMENTS dbeaver mysql
+
+![](images/clipboard-2356798734.png)
+
+# Creación de la tabla ASSIGNMENTS dbeaver mysql
+
+![](images/clipboard-51231395.png)
+
+# Creación de la tabla TRACKINGS dbeaver mysql
+
+![](images/clipboard-1382387039.png)
+
+# Creación de la tabla ORDER_DETAILS dbeaver mysql
+
+![](images/clipboard-1383331110.png)
+
+# Creación de la tabla USERS dbeaver postgresql
+
+![](images/clipboard-1144634794.png)
+
+# Creación de la tabla STORES dbeaver postgresql
+
+![](images/clipboard-2596769113.png)
+
+# Creación de la tabla PRODUCTS dbeaver postgresql
+
+![](images/clipboard-722108389.png)
+
+# Creación de la tabla DRIVERS dbeaver postgresql
+
+![](images/clipboard-4085615168.png)
+
+# Creación de la tabla LIQUIDATIONS dbeaver postgresql
+
+![](images/clipboard-4289547557.png)
+
+# Creación de la tabla ORDERS dbeaver postgresql
+
+![](images/clipboard-2531708895.png)
+
+# Creación de la tabla PAYMENTS dbeaver postgresql
+
+![](images/clipboard-2488382691.png)
+
+# Creación de la tabla ASSIGNMENTS dbeaver postgresql
+
+![](images/clipboard-3972188551.png)
+
+# Creación de la tabla TRACKINGS dbeaver postgresql
+
+![](images/clipboard-4094308986.png)
+
+# Creación de la tabla ORDER_DETAILS dbeaver postgresql
+
+![](images/clipboard-1279206987.png)
+
+# Creación de la tabla USERS dbeaver sql server
+
+![](images/clipboard-1565430035.png)
+
+# Creación de la tabla STORES dbeaver sql server
+
+![](images/clipboard-2311193596.png)
+
+# Creación de la tabla PRODUCTS dbeaver sql server
+
+![](images/clipboard-1296696068.png)
+
+# Creación de la tabla DRIVERS dbeaver sql server
+
+![](images/clipboard-2581119223.png)
+
+# Creación de la tabla LIQUIDATIONS dbeaver sql server
+
+![](images/clipboard-3885250636.png)
+
+# Creación de la tabla ORDERS dbeaver sql server
+
+![](images/clipboard-1108054369.png)
+
+# Creación de la tabla PAYMENTS dbeaver sql server
+
+![](images/clipboard-1668593134.png)
+
+# Creación de la tabla ASSIGNMENTS dbeaver sql server
+
+![](images/clipboard-1784656379.png)
+
+# Creación de la tabla TRACKINGS dbeaver sql server
+
+![](images/clipboard-2800446752.png)
+
+# Creación de la tabla ORDER_DETAILS dbeaver sql server
+
+![](images/clipboard-3320622254.png)
+
+# reación de la tabla USERS dbeaver oracle xe
+
+![](images/clipboard-3353665030.png)
+
+# Creación de la tabla STORES dbeaver oracle xe
+
+![](images/clipboard-3470670529.png)
+
+# Creación de la tabla PRODUCTS dbeaver oracle xe
+
+![](images/clipboard-1826474592.png)
+
+# Creación de la tabla DRIVERS dbeaver oracle xe
+
+![](images/clipboard-1024131467.png)
+
+# Creación de la tabla LIQUIDATIONS dbeaver oracle xe
+
+![](images/clipboard-2997462560.png)
+
+# Creación de la tabla ORDERS dbeaver oracle xe
+
+![](images/clipboard-801204572.png)
+
+# Creación de la tabla PAYMENTS dbeaver oracle xe
+
+![](images/clipboard-3422098107.png)
+
+# Creación de la tabla ASSIGNMENTS dbeaver oracle xe
+
+![](images/clipboard-2959120286.png)
+
+# Creación de la tabla TRACKINGS dbeaver oracle xe
+
+![](images/clipboard-3039001910.png)
+
+# Creación de la tabla ORDER_DETAILS dbeaver oracle xe
+
+![](images/clipboard-2511447619.png)
+
+# Creación de la tabla USERS workbench mysql
+
+![](images/clipboard-834031502.png)
+
+# Creación de la tabla STORES workbench mysql
+
+![](images/clipboard-3089425619.png)
+
+# Creación de la tabla PRODUCTS workbench mysql
+
+![](images/clipboard-1316488497.png)
+
+# Creación de la tabla DRIVERS workbench mysql
+
+![](images/clipboard-1406779986.png)
+
+# Creación de la tabla LIQUIDATIONS workbench mysql
+
+![](images/clipboard-227973452.png)
+
+# Creación de la tabla ORDERS workbench mysql
+
+![](images/clipboard-3563151656.png)
+
+# Creación de la tabla PAYMENTS workbench mysql
+
+![](images/clipboard-3134217413.png)
+
+# Creación de la tabla ASSIGNMENTS workbench mysql
+
+![](images/clipboard-2380545939.png)
+
+# Creación de la tabla TRACKINGS workbench mysql
+
+![](images/clipboard-3775829496.png)
+
+# Creación de la tabla ORDER_DETAILS workbench mysql
+
+![](images/clipboard-3801733503.png)
