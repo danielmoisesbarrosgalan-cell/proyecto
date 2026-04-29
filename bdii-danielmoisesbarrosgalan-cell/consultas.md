@@ -185,3 +185,15 @@ Finalmente se ordena de mayor a menor según el total de ventas.
 ![](images/clipboard-2629249779.png)
 
 ## PostgreSQL Cuarta Consulta forma 2
+
+Se usa `JOIN` para unir `users` con `orders`.\
+
+Se filtran las ventas por fecha.\
+
+Luego se agrupa por cliente para calcular la suma, cantidad y promedio de sus compras.\
+
+Finalmente se ordena por el total de ventas en orden descendente.
+
+![](images/clipboard-1827351688.png)
+
+## PostgreSQL Quinta Consulta forma 1
