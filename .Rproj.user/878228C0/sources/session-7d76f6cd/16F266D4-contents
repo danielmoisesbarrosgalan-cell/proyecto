@@ -246,7 +246,7 @@ A continuación, se define la tabla USERS con sus entidades principales: USER_ID
 
 ![](images/clipboard-1638850179.png)
 
-# Creación de las tablas STORES en Oracle 
+# Creación de las tablas STORES en Oracle
 
 Se crea la tabla STORES con STORE_ID como clave primaria autogenerada, NAME y STATUS como campos obligatorios. Finalmente, con el comando `DESC` se confirma la estructura de ambas tablas dentro del esquema.
 
@@ -264,13 +264,13 @@ Se crea la tabla DRIVERS con DRIVER_ID como clave primaria autogenerada, junto c
 
 ![](images/clipboard-2981574037.png)
 
-# Creación de las tablas LIQUIDATIONS en Oracle 
+# Creación de las tablas LIQUIDATIONS en Oracle
 
 Se crea la tabla LIQUIDATIONS con LIQUIDATION_ID como clave primaria autogenerada, además de los campos CREATED_AT, STATUS, SUBTOTAL, TAX y TOTAL para almacenar la información de las liquidaciones. Finalmente, con el comando `DESC` se confirma la estructura de ambas tablas dentro del esquema.
 
 ![](images/clipboard-287064121.png)
 
-# Creación de las tablas ORDERS en Oracle 
+# Creación de las tablas ORDERS en Oracle
 
 Se crea la tabla ORDERS con ORDER_ID como clave primaria autogenerada, USER_ID como clave foránea que referencia a la tabla USERS mediante la restricción fk_orders_user, además de los campos CREATED_AT, STATUS, SUBTOTAL, TAX y TOTAL. Finalmente, con el comando `DESC` se confirma la estructura de ambas tablas dentro del esquema.
 
@@ -499,3 +499,15 @@ Se define la tabla ORDER_DETAILS con ORDER_DETAIL_ID como clave primaria autogen
 # Creación de la tabla ORDER_DETAILS workbench mysql
 
 ![](images/clipboard-3801733503.png)
+
+# CONSULTAS MOTORES
+
+## MySql
+
+Entramos a Mysql, cambiamos a la base de datos dbrutaya y visualizamos las tablas de dbrutaya
+
+![](images/clipboard-553006232.png)
+
+Utilizamos describe para ver los campos en users
+
+![](images/clipboard-3920560878.png)
